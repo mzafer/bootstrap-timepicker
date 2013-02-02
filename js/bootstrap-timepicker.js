@@ -26,7 +26,7 @@
     this.showMeridian = options.showMeridian;
     this.showSeconds = options.showSeconds;
     this.template = options.template;
-
+    this.isInline = options.isInline || this.isInline;
     this._init();
   };
 
@@ -65,7 +65,12 @@
       }
 
       if (this.template !== false) {
-        this.$widget = $(this.getTemplate()).appendTo(this.$element.parents('.bootstrap-timepicker')).on('click', $.proxy(this.widgetClick, this));
+        if(this.template === 'inline'){
+          this.$widget = $(this.getTemplate()).appendTo(this.$element).on('click', $.proxy(this.widgetClick, this))
+        }
+        else {
+          this.$widget = $(this.getTemplate()).appendTo(this.$element.parents('.bootstrap-timepicker')).on('click', $.proxy(this.widgetClick, this))  ;
+        }
       } else {
         this.$widget = false;
       }
@@ -328,6 +333,8 @@
         break;
         case 'dropdown':
           template = '<div class="bootstrap-timepicker-widget dropdown-menu">'+ templateContent +'</div>';
+        case 'inline':
+          template = '<div class="bootstrap-timepicker-widget inline">'+ templateContent +'</div>';
         break;
       }
 
